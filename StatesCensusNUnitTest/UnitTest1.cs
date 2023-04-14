@@ -74,5 +74,74 @@ namespace StatesCensusNUnitTest
                 Assert.AreEqual(ex.Message, "Incorrect Header");
             }
         }
+        //UC-2.1
+        public string stateCodeFilePath = @"D:\BridgeLabs\IndianStatesCensusAnalyserProblem\StatesCensusNUnitTest\StateCodes\StateCode.csv";
+        public string stateCodeIncorrectFilePath = @"D:\BridgeLabs\IndianStatesCensusAnalyserProblem\StatesCensusNUnitTest\StateCode.csv";
+        public string stateCodeFileTypePath = @"D:\BridgeLabs\IndianStatesCensusAnalyserProblem\StatesCensusNUnitTest\StateCodes\StateCodeFilType.txt";
+        public string stateCodeDelimeterPath = @"D:\BridgeLabs\IndianStatesCensusAnalyserProblem\StatesCensusNUnitTest\StateCodes\StateCodeDelimeter.csv";
+        public string stateCodeHeaderPath = @"D:\BridgeLabs\IndianStatesCensusAnalyserProblem\StatesCensusNUnitTest\StateCodes\StateCodeHeader.csv";
+        [Test]
+        public void GivenStateCodeData_WhenAnalyzed_ShouldReturnNoOfRecordsMatches()
+        {
+            StatesCensusAnalyser analyser = new StatesCensusAnalyser();
+            CSVStateCode stateCode = new CSVStateCode();
+            Assert.AreEqual(stateCode.ReadStateCodeData(stateCodeFilePath), analyser.ReadStateCodeData(stateCodeFilePath));
+        }
+        //UC-2.2
+        [Test]
+        public void GivenStateCodeDataFileIncorrect_WhenAnalyzed_ShouldReturnNoOfRecordsMatches()
+        {
+            StatesCensusAnalyser analyser = new StatesCensusAnalyser();
+            try
+            {
+                int records = analyser.ReadStateCodeData(stateCodeIncorrectFilePath);
+            }
+            catch (StateCodeException e)
+            {
+                Assert.AreEqual(e.Message, "Incorrect File Path");
+            }
+        }
+        //UC-2.3
+        [Test]
+        public void GivenStateCodeDataFileTypeIncorrect_WhenAlayzed_ShouldReturnException()
+        {
+            StatesCensusAnalyser analyzer = new StatesCensusAnalyser();
+            try
+            {
+                int records = analyzer.ReadStateCodeData(stateCodeFileTypePath);
+            }
+            catch (StateCodeException ex)
+            {
+                Assert.AreEqual(ex.Message, "Incorrect File Type");
+            }
+        }
+        //UC-2.4
+        [Test]
+        public void GivenStateCodeDataFileDelimeterIncorrect_WhenAlayzed_ShouldReturnException()
+        {
+            StatesCensusAnalyser analyzer = new StatesCensusAnalyser();
+            try
+            {
+                int records = analyzer.ReadStateCodeData(stateCodeDelimeterPath);
+            }
+            catch (StateCodeException ex)
+            {
+                Assert.AreEqual(ex.Message, "Incorrect Delimeter");
+            }
+        }
+        //UC-2.5
+        [Test]
+        public void GivenStateCodeDataFileHeaderIncorrect_WhenAlayzed_ShouldReturnException()
+        {
+            StatesCensusAnalyser analyzer = new StatesCensusAnalyser();
+            try
+            {
+                bool records = analyzer.ReadStateCodeData(stateCodeHeaderPath, "SrNo,State,Name,TIN,StateCode");
+            }
+            catch (StateCodeException ex)
+            {
+                Assert.AreEqual(ex.Message, "Incorrect Header");
+            }
+        }
     }
 }
